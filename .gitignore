@@ -27,3 +27,7 @@
 *.exe
 *.out
 *.app
+arch
+arch.save
+WebGossipMe*
+*.save
