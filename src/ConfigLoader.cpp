@@ -1,6 +1,7 @@
 #include "../include/ConfigLoader.h"
-#include <boost/program_options.hpp>
 #include "../include/version.h"
+#include "../include/OptionPrinter.hpp"
+#include <boost/program_options.hpp>
 #include <string>
 #include <fstream>
 
@@ -10,31 +11,38 @@ ConfigLoader::ConfigLoader(int ac, char** av)
 
   const std::string AUTHOR="Krzysztof Grzempa";
   const std::string LICENCE="GNU GPLv3";
+  const std::string APPNAME="webgossipme";
   const int YEAR=2016;
+  const int SUCCESS = 0;
 
   namespace po = boost::program_options;
   po::options_description desc("Available options");
-  po::positional_options_description p;
+  po::positional_options_description posOpt;
   po::options_description confdesc("Config Options");
 
-  try {
+  try
+  {
     std::ifstream Config_File(av[1]);
     desc.add_options()
-      ("about", "Authors and licences")
-      ("help,h", "produce help message")
-      ("version,v", "print version informations")
-      ("configfile", po::value<std::string>(), "Configuration file");
-    p.add("configfile", -1);
+    ("about", "Authors and licences")
+    ("help,h", "produce help message")
+    ("version,v", "print version informations")
+    ("configfile", po::value<std::string>(), "Configuration file");
+    posOpt.add("configfile", -1);
     po::variables_map vm;
-    po::store(po::command_line_parser(ac, av).options(desc).positional(p).run(), vm);
-    //po::store(po::parse_config_file(Config_File, desc), vm);
+    po::store(po::command_line_parser(ac, av).options(desc).positional(posOpt).run(), vm);
 
-    if (vm.count("help")) {
-      std::cout << desc << "\n";
+    if (vm.count("help"))
+    {
+      //std::cout << desc << "\n";
+      rad::OptionPrinter::printStandardAppDesc(APPNAME, std::cout,
+          desc,
+          &posOpt);
 
     }
 
-    if (vm.count("version")) {
+    if (vm.count("version"))
+    {
       using AutoVersion::MINOR;
       using AutoVersion::MAJOR;
       using AutoVersion::BUILD;
@@ -45,17 +53,19 @@ ConfigLoader::ConfigLoader(int ac, char** av)
 
     }
 
-    if (vm.count("about")) {
+    if (vm.count("about"))
+    {
       std::cout << "Author: " << AUTHOR << " " << YEAR << "\n"
-      << "Under licence: " << LICENCE << "\n";
+                << "Under licence: " << LICENCE << "\n";
 
     }
 
-    if(vm.count("configfile")) {
+    if(vm.count("configfile"))
+    {
       std::cout << "Z pliku loga" << vm["configfile"].as<std::string>();
       confdesc.add_options()
-        ("LogFile", po::value<std::string>())
-        ("IgnoreFile", po::value<std::string>());
+      ("LogFile", po::value<std::string>())
+      ("IgnoreFile", po::value<std::string>());
       po::store(po::parse_config_file(Config_File, confdesc), vm);
 
       std::cout << vm["LogFile"].as<std::string>();
@@ -64,7 +74,9 @@ ConfigLoader::ConfigLoader(int ac, char** av)
 
     po::notify(vm);
 
-  } catch(po::error & ba) {
+  }
+  catch(po::error & ba)
+  {
 
     std::cout << "ERROR: " << ba.what();
 
