@@ -7,7 +7,8 @@
 
 int main(int argc, char** argv)
 {
-  std::vector<char *> test_seed {"https://www.liveleak.com", "https://www.pagerduty.com", "https://allegro.pl"};
+  //std::vector<char *> test_seed {"http://127.0.0.1", "http://127.0.0.1/next.html"};
+  std::vector<char *> test_seed {"https://www.onet.pl"};
   ConfigLoader(argc, argv);
   KGrawler Crawl(test_seed);
   Crawl.start();
