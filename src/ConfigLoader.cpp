@@ -33,7 +33,6 @@ ConfigLoader::ConfigLoader(int ac, char** av)
 
         if (vm.count("help"))
         {
-            //std::cout << desc << "\n";
             rad::OptionPrinter::printStandardAppDesc(APPNAME, std::cout,
                     desc,
                     &posOpt);

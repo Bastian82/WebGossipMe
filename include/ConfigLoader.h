@@ -1,15 +1,14 @@
 #ifndef CONFIGLOADER_H
 #define CONFIGLOADER_H
 
-
 class ConfigLoader
 {
-  public:
+public:
     ConfigLoader(int ac, char** av);
 
-  protected:
+protected:
 
-  private:
+private:
 };
 
 #endif // CONFIGLOADER_H
