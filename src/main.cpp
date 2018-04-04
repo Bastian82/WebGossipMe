@@ -26,8 +26,7 @@ int main(int argc, char** argv)
     ConfigLoader(argc, argv);
     /* TODO (grzempek#1#02/19/18): W konstruktorze maja sie tez znalezc parametry konfiga, przekazywane dalej do klasy */
     KGrawler Crawl(test_seed);
-    std::map<std::string, boost::any> b = *Crawl.wystaw();
-//    std::cout << b["testowy_klucz"] << std::endl;
+    std::string * st = Crawl.statistics();
     Crawl.start();
 
     return 0;
